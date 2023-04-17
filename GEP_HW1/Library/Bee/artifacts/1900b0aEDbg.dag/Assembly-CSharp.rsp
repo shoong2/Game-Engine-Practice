@@ -348,6 +348,7 @@
 "Assets/Scripts/GameManager.cs"
 "Assets/Scripts/Player.cs"
 "Assets/Scripts/Title.cs"
+"Assets/Scripts/UIController.cs"
 -langversion:9.0
 
 /deterministic
