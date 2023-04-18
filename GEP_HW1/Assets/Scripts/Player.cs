@@ -93,10 +93,11 @@ public class Player : MonoBehaviour
             }
             else if(nowWeapon.tag == "Gun" && bulletCount!=0)
             {
-                gunAnim.SetTrigger("Attack");
-                Instantiate(bullet, gunPrefab.transform.position, transform.rotation);
                 bulletCount--;
                 bulletCountText.text = bulletCount.ToString();
+                gunAnim.SetTrigger("Attack");
+                Instantiate(bullet, gunPrefab.transform.position, transform.rotation);
+                
             }
         }
 
@@ -134,7 +135,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.name =="SwordItem")
+        if(other.gameObject.tag =="SwordItem")
         {
             swordPrefab = Instantiate(sword);
             swordPrefab.transform.SetParent(weapon.transform);
@@ -162,7 +163,7 @@ public class Player : MonoBehaviour
 
             Destroy(other.gameObject);
         }
-        else if(other.name =="GunItem")
+        else if(other.gameObject.tag =="GunItem")
         {
             gunPrefab = Instantiate(gun);
             gunPrefab.transform.SetParent(weapon.transform);
@@ -191,6 +192,13 @@ public class Player : MonoBehaviour
                 swordimg.transform.localPosition = new Vector3(0, 0, 0);
             }
 
+            Destroy(other.gameObject);
+
+        }
+        else if(other.gameObject.tag =="BulletItem")
+        {
+            bulletCount += 5;
+            bulletCountText.text = bulletCount.ToString();
             Destroy(other.gameObject);
         }
           
@@ -230,6 +238,16 @@ public class Player : MonoBehaviour
         slot2.anchoredPosition = slot1Position;
 
 
+    }
+
+    public bool IsHaveGun()
+    {
+        if (Weapons.Contains(gunPrefab))
+        {
+            return true;
+        }
+        else
+            return false;
     }
 
 }

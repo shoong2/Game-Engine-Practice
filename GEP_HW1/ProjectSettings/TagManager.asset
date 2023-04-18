@@ -8,6 +8,10 @@ TagManager:
   - Sword
   - Gun
   - Ground
+  - Bullet
+  - SwordItem
+  - GunItem
+  - BulletItem
   layers:
   - Default
   - TransparentFX
@@ -16,7 +20,7 @@ TagManager:
   - Water
   - UI
   - Playground
-  - test
+  - PostProcessing
   - 
   - 
   - 
