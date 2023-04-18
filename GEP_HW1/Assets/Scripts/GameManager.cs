@@ -16,13 +16,20 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     RectTransform slot2;
 
+    [SerializeField]
+    GameObject player;
+
+    Vector3 playerPos;
+    public float endTime = 2f;
+    float underTime = 0;
+
     Vector2 slot1Position;
     Vector2 slot2Position;
 
     void Start()
     {
         time.text ="Time: " + gameTime.ToString();
-
+        playerPos = player.transform.position;
         
     }
 
@@ -31,29 +38,17 @@ public class GameManager : MonoBehaviour
     {
         gameTime -= Time.deltaTime;
         time.text = "Time: " + string.Format("{0:F2}", gameTime);
-        if (Input.GetKeyDown(KeyCode.Q))
+
+        if(player.transform.position.y <playerPos.y -1f)
         {
-            //StartCoroutine(ChangeUI());
+            underTime += Time.deltaTime;
+            if(underTime>=endTime)
+            {
+                player.transform.position = player.GetComponent<Player>().spawnPos;
+                underTime = 0;
+            }
         }
+ 
     }
 
-    IEnumerator ChangeUI()
-    {
-        slot1Position = slot1.anchoredPosition;
-        slot2Position = slot2.anchoredPosition;
-        float elapsedTime = 0f;
-
-        while(elapsedTime < duration)
-        {
-            slot1.anchoredPosition = Vector2.Lerp(slot1Position, slot2Position, (elapsedTime / duration));
-            slot2.anchoredPosition = Vector2.Lerp(slot2Position, slot1Position, (elapsedTime / duration));
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        
-        }
-        slot1.anchoredPosition = slot2Position;
-        slot2.anchoredPosition = slot1Position;
-        
-
-    }
 }

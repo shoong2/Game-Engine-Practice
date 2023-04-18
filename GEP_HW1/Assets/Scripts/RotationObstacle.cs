@@ -8,7 +8,7 @@ public class RotationObstacle : MonoBehaviour
     public float power = 100f;
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         transform.Rotate(new Vector3(0, 0, rotationSpeed) * Time.deltaTime);
     }

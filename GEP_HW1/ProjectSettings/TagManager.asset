@@ -12,6 +12,7 @@ TagManager:
   - SwordItem
   - GunItem
   - BulletItem
+  - Particle
   layers:
   - Default
   - TransparentFX

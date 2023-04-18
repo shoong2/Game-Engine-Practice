@@ -24,8 +24,9 @@ public class Enemy : MonoBehaviour
     }
         
 
-    void Update()
+    void FixedUpdate()
     {
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
         agent.SetDestination(target.transform.position);
         if(Input.GetMouseButtonDown(0))
         {
@@ -41,21 +42,34 @@ public class Enemy : MonoBehaviour
     {
         if(other.tag =="Bullet" || (attack && other.tag == "Sword"))
         {
+            Vector3 w = gameObject.transform.position;
+            
             if(targetScript.IsHaveGun())
             {
-                Instantiate(bulletItem, other.transform.position, Quaternion.identity);
+                StartCoroutine(test(w,"Bullet"));
+                //Instantiate(bulletItem, gameObject.transform.position, Quaternion.identity);
             }
             else
             {
-                Instantiate(gunItem, other.transform.position, Quaternion.identity);
+                StartCoroutine(test(w,"Gun"));
+                //Instantiate(gunItem, gameObject.transform.position, Quaternion.identity);
             }
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
 
-        //if(Input.GetMouseButtonDown(0) && other.tag =="Sword")
-        //{
-        //    Destroy(gameObject);
-        //}
         
+        
+    }
+
+    IEnumerator test(Vector3 a, string b)
+    {
+        //yield return new WaitForSeconds(1f);
+        if(b=="Gun")
+            Instantiate(gunItem, a - Vector3.back, Quaternion.Euler(0,-61,0));
+        else
+            Instantiate(bulletItem, a +Vector3.down, Quaternion.identity);
+
+        Destroy(gameObject);
+        yield return null;
     }
 }
