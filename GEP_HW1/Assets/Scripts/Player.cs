@@ -2,17 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 public class Player : MonoBehaviour
 {
     public float speed = 5f;   
-    public float jumpForce = 5f;        
+    public float jumpForce = 5f;
+    public float rotationSpeed = 3f;
     bool isGrounded =true;
 
     public float gameTime = 180f;
     public float duration = 0.5f;
 
+    public int bulletCount = 3;
+
     Vector2 slot1Position;
     Vector2 slot2Position;
+
+    TMP_Text bulletCountText;
 
     Rigidbody rigid;
 
@@ -46,7 +52,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     GameObject gunImage;
 
+    [SerializeField]
+    GameObject bullet;
 
+    GameObject swordPrefab;
+    GameObject gunPrefab;
 
     private void Start()
     {
@@ -66,7 +76,8 @@ public class Player : MonoBehaviour
         Vector3 velocity = direction * speed;
 
         transform.position += velocity * Time.deltaTime;
-
+       // if(direction != Vector3.zero)
+          //  transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(direction), rotationSpeed * Time.deltaTime);
    
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
@@ -80,9 +91,12 @@ public class Player : MonoBehaviour
             {
                 swordAnim.SetTrigger("Attack");
             }
-            else if(nowWeapon.name == "Gun")
+            else if(nowWeapon.tag == "Gun" && bulletCount!=0)
             {
-
+                gunAnim.SetTrigger("Attack");
+                Instantiate(bullet, gunPrefab.transform.position, transform.rotation);
+                bulletCount--;
+                bulletCountText.text = bulletCount.ToString();
             }
         }
 
@@ -122,7 +136,7 @@ public class Player : MonoBehaviour
     {
         if(other.name =="SwordItem")
         {
-            GameObject swordPrefab = Instantiate(sword);
+            swordPrefab = Instantiate(sword);
             swordPrefab.transform.SetParent(weapon.transform);
             swordPrefab.transform.localPosition = new Vector3(0, -0.172f, 0);
             swordAnim = swordPrefab.GetComponent<Animator>();
@@ -150,7 +164,7 @@ public class Player : MonoBehaviour
         }
         else if(other.name =="GunItem")
         {
-            GameObject gunPrefab = Instantiate(gun);
+            gunPrefab = Instantiate(gun);
             gunPrefab.transform.SetParent(weapon.transform);
             gunPrefab.transform.localPosition = new Vector3(0, 0, 0);
             gunAnim = gunPrefab.GetComponent<Animator>();
@@ -163,6 +177,9 @@ public class Player : MonoBehaviour
             }
 
             GameObject swordimg = Instantiate(gunImage);
+            //swordimg.transform.FindChild("BulletCount");
+            bulletCountText = swordimg.transform.Find("BulletCount").GetComponent<TMP_Text>();
+            bulletCountText.text = bulletCount.ToString();
             if (slot1.childCount == 0)
             {
                 swordimg.transform.SetParent(slot1);
