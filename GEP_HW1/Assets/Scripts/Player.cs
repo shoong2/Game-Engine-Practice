@@ -8,7 +8,8 @@ public class Player : MonoBehaviour
     public float speed = 5f;   
     public float jumpForce = 5f;
     public float rotationSpeed = 3f;
-    bool isGrounded =true;
+    public bool isGrounded =true;
+    bool slotClick = true;
 
     public float gameTime = 180f;
     public float duration = 0.5f;
@@ -79,7 +80,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         rigid = GetComponent<Rigidbody>();
-        spawnPos = transform.position;
+        spawnPos = transform.position + new Vector3(0,0.3f,0);
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -164,10 +165,12 @@ public class Player : MonoBehaviour
 
 
         //1, 2번 무기 교체
-        if(Input.GetKeyDown(KeyCode.Alpha1) &&nowWeapon!=null)
+        if(Input.GetKeyDown(KeyCode.Alpha1) &&nowWeapon!=null &&slotClick)
         {
+            
             if(Weapons[0] != null && nowWeapon!=Weapons[0])
             {
+                slotClick = false;
                 nowWeapon = Weapons[0];
                 foreach (GameObject obj in Weapons)
                 {
@@ -176,12 +179,15 @@ public class Player : MonoBehaviour
                 Weapons[0].SetActive(true);
                 StartCoroutine(ChangeUI());
             }
+          
         }
 
-        if (Input.GetKeyDown(KeyCode.Alpha2) && nowWeapon != null)
+        if (Input.GetKeyDown(KeyCode.Alpha2) && nowWeapon != null && slotClick)
         {
+           
             if (Weapons[1] != null && nowWeapon != Weapons[1])
             {
+                slotClick = false;
                 nowWeapon = Weapons[1];
                 foreach (GameObject obj in Weapons)
                 {
@@ -190,6 +196,7 @@ public class Player : MonoBehaviour
                 Weapons[1].SetActive(true);
                 StartCoroutine(ChangeUI());
             }
+           
         }
 
 
@@ -282,6 +289,7 @@ public class Player : MonoBehaviour
         if(other.tag =="EnemyBullet")
         {
             transform.position = spawnPos;
+            isGrounded = true;
         }
 
         if(other.tag =="End")
@@ -333,7 +341,7 @@ public class Player : MonoBehaviour
         slot1.anchoredPosition = slot2Position;
         slot2.anchoredPosition = slot1Position;
 
-
+        slotClick = true;
     }
 
     IEnumerator Shot()

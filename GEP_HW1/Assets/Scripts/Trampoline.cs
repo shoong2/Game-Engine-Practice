@@ -10,7 +10,7 @@ public class Trampoline : MonoBehaviour
     {
         if(collision.transform.tag =="Player")
         {
-            collision.transform.GetComponent<Rigidbody>().AddForce(new Vector3(0,speed, 3), ForceMode.Impulse);
+            collision.transform.GetComponent<Rigidbody>().AddForce(new Vector3(0,speed, 5), ForceMode.Impulse);
         }
     }
 }

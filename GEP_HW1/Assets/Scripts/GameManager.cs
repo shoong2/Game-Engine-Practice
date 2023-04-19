@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
             {
                 player.transform.position = player.GetComponent<Player>().spawnPos;
                 player.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                player.GetComponent<Player>().isGrounded = true;
                 underTime = 0;
 
             }

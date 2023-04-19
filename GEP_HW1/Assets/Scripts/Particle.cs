@@ -20,8 +20,7 @@ public class Particle : MonoBehaviour
         if(other.tag =="Player")
         {
             //Debug.Log("check point");
-            other.GetComponent<Player>().spawnPos = transform.position;
-            Debug.Log(other.GetComponent<Player>().spawnPos);
+            other.GetComponent<Player>().spawnPos = transform.position +new Vector3(0,0.3f,0);
         }
 
     }

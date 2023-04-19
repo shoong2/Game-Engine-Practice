@@ -105,6 +105,7 @@ public class Enemy : MonoBehaviour
         if (attack == false && collision.gameObject.tag == "Player") //||other.tag =="Sword" ))
         {
             target.transform.position = targetScript.spawnPos;
+            targetScript.isGrounded = true;
         }
     }
 }
