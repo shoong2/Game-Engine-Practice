@@ -28,17 +28,36 @@ public class Enemy : MonoBehaviour
 
     void FixedUpdate()
     {
+        //GetComponent<Rigidbody>().velocity = Vector3.zero;
+        //if (Vector3.Distance(target.transform.position, transform.position) < distance)
+        //{
+        //    agent.SetDestination(target.transform.position);
+        //}
+        //else
+        //    agent.SetDestination(Vector3.zero);
+        
+       
+    }
+
+    private void Update()
+    {
         GetComponent<Rigidbody>().velocity = Vector3.zero;
-        if(Vector3.Distance(target.transform.position, transform.position) <distance)
+        if (Vector3.Distance(target.transform.position, transform.position) < distance)
         {
+            agent.isStopped = false;
             agent.SetDestination(target.transform.position);
         }
-        
-        if(Input.GetMouseButtonDown(0))
+        else
+        {
+            agent.isStopped = true;
+        }
+            
+
+        if (Input.GetMouseButtonDown(0))
         {
             attack = true;
         }
-        if(Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0))
         {
             attack = false;
         }
@@ -46,6 +65,7 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
         if(other.tag =="Bullet" || (attack && other.tag == "Sword"))
         {
             Vector3 w = gameObject.transform.position;
@@ -64,8 +84,9 @@ public class Enemy : MonoBehaviour
         }
 
         
-        
     }
+
+    
 
     IEnumerator test(Vector3 a, string b)
     {
@@ -77,5 +98,13 @@ public class Enemy : MonoBehaviour
 
         Destroy(gameObject);
         yield return null;
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (attack == false && collision.gameObject.tag == "Player") //||other.tag =="Sword" ))
+        {
+            target.transform.position = targetScript.spawnPos;
+        }
     }
 }

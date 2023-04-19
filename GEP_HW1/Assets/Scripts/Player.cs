@@ -60,13 +60,53 @@ public class Player : MonoBehaviour
     [SerializeField]
     Transform bulletPos;
 
+    [SerializeField]
+    GameManager gameManager;
+
     GameObject swordPrefab;
     GameObject gunPrefab;
+
+    AudioSource audioSource;
+    public AudioClip jumpSound;
+    public AudioClip shotSound;
+    public AudioClip reloadSound;
+    public AudioClip swordSound;
+    public AudioClip flipSound;
+    public AudioClip coinSound;
+
+   
 
     private void Start()
     {
         rigid = GetComponent<Rigidbody>();
         spawnPos = transform.position;
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    void PlaySound(string action)
+    {
+        switch (action)
+        {
+            case "Jump":
+                audioSource.clip = jumpSound;
+                break;
+            case "Shot":
+                audioSource.clip = shotSound;
+                break;
+            case "Reload":
+                audioSource.clip = reloadSound;
+                break;
+            case "Sword":
+                audioSource.clip = swordSound;
+                break;
+            case "Flip":
+                audioSource.clip = flipSound;
+                break;
+            case "Coin":
+                audioSource.clip = coinSound;
+                break;
+        }
+        audioSource.Play();
     }
 
     private void FixedUpdate()
@@ -93,6 +133,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
+            PlaySound("Jump");
             rigid.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
             isGrounded = false;
         }
@@ -102,15 +143,21 @@ public class Player : MonoBehaviour
         {
             if(nowWeapon.tag == "Sword")
             {
+                PlaySound("Sword");
                 swordAnim.SetTrigger("Attack");
             }
-            else if(nowWeapon.tag == "Gun" && bulletCount!=0)
+            else if(nowWeapon.tag == "Gun") //&& bulletCount!=0)
             {
-                bulletCount--;
-                bulletCountText.text = bulletCount.ToString();
-                gunAnim.SetTrigger("Attack");
-                StartCoroutine(Shot());
-                //GameObject instantBullet = Instantiate(bullet, bulletPos.position, bulletPos.rotation);
+                if (bulletCount != 0)
+                {
+                    PlaySound("Shot");
+                    bulletCount--;
+                    bulletCountText.text = bulletCount.ToString();
+                    gunAnim.SetTrigger("Attack");
+                    StartCoroutine(Shot());
+                }
+                else
+                    PlaySound("Reload");
                 
             }
         }
@@ -154,6 +201,7 @@ public class Player : MonoBehaviour
         //칼 아이템 먹기
         if(other.gameObject.tag =="SwordItem")
         {
+            PlaySound("Coin");
             //칼 생성후 플레이어 weapon 자식으로 부착, 위치 조정, 애니메이션 적용, 무기 리스트에 추가
             swordPrefab = Instantiate(sword);
             swordPrefab.transform.SetParent(weapon.transform);
@@ -186,6 +234,7 @@ public class Player : MonoBehaviour
         //총 아이템 먹기
         if(other.gameObject.tag =="GunItem")
         {
+            PlaySound("Coin");
             if (!Weapons.Contains(gunPrefab))
             {
                 gunPrefab = Instantiate(gun);
@@ -224,11 +273,26 @@ public class Player : MonoBehaviour
         //총알 먹기
         if(other.gameObject.tag =="BulletItem" &&Weapons.Contains(gunPrefab))
         {
-            bulletCount += 5;
+            PlaySound("Coin");
+            bulletCount += 3;
             bulletCountText.text = bulletCount.ToString();
             Destroy(other.gameObject);
         }
 
+        if(other.tag =="EnemyBullet")
+        {
+            transform.position = spawnPos;
+        }
+
+        if(other.tag =="End")
+        {
+            gameManager.end();
+        }
+
+        //if(other.tag =="EnemyBullet" || other.tag =="Enemy")
+        //{
+        //    transform.position = spawnPos;
+        //}
         
           
     }
@@ -239,6 +303,7 @@ public class Player : MonoBehaviour
         {
             isGrounded = true;
         }
+
     }
 
     private void OnCollisionExit(Collision collision)
@@ -252,6 +317,7 @@ public class Player : MonoBehaviour
     //슬롯UI change
     IEnumerator ChangeUI()
     {
+        PlaySound("Flip");
         slot1Position = slot1.anchoredPosition;
         slot2Position = slot2.anchoredPosition;
         float elapsedTime = 0f;

@@ -481,9 +481,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   gunPos: {fileID: 7101336075932494630}
-  bullet: {fileID: 2015924173815986976, guid: 78e8ca74d7efa9847ac46208f94b0dc9, type: 3}
-  distance: 30
-  bulletSpeed: 30
+  bullet: {fileID: 2015924173815986976, guid: 9eba7824b8a75eb4b99ff8c27a51f64b, type: 3}
+  distance: 20
+  bulletSpeed: 20
+  bulletTime: 1
+  bulletRate: 0
+  gunItem: {fileID: 5901023327584136579, guid: 015342d02b36ecc4686f13735ed7e4f9, type: 3}
+  bulletItem: {fileID: 976252990109319098, guid: 83386127a7cb21642ad0a1620a8ac112, type: 3}
 --- !u!1 &7101336075020799520
 GameObject:
   m_ObjectHideFlags: 0

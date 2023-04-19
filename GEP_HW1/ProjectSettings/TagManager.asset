@@ -14,6 +14,8 @@ TagManager:
   - BulletItem
   - Particle
   - Enemy
+  - EnemyBullet
+  - End
   layers:
   - Default
   - TransparentFX

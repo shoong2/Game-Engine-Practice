@@ -18,6 +18,7 @@ public class RotationObstacle : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {
             collision.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.right*power, ForceMode.Impulse);
+            Debug.Log("?");
         }
     }
 }
