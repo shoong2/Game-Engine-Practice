@@ -7,6 +7,8 @@ public class Enemy : MonoBehaviour
 {
     NavMeshAgent agent;
 
+    public float distance=3f;
+
     GameObject target;
     Player targetScript;
 
@@ -27,7 +29,11 @@ public class Enemy : MonoBehaviour
     void FixedUpdate()
     {
         GetComponent<Rigidbody>().velocity = Vector3.zero;
-        agent.SetDestination(target.transform.position);
+        if(Vector3.Distance(target.transform.position, transform.position) <distance)
+        {
+            agent.SetDestination(target.transform.position);
+        }
+        
         if(Input.GetMouseButtonDown(0))
         {
             attack = true;

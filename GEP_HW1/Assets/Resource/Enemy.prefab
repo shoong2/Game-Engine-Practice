@@ -211,7 +211,7 @@ GameObject:
   - component: {fileID: 7234273854300698910}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -347,5 +347,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 592e6cc8087042b4db7b1ff45a00ed7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  distance: 20
   gunItem: {fileID: 5901023327584136579, guid: 015342d02b36ecc4686f13735ed7e4f9, type: 3}
   bulletItem: {fileID: 976252990109319098, guid: 83386127a7cb21642ad0a1620a8ac112, type: 3}

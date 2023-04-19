@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
             {
                 player.transform.position = player.GetComponent<Player>().spawnPos;
                 underTime = 0;
+
             }
         }
  
